@@ -143,7 +143,7 @@ static void import (char *src, char *dst)
     if (SPIFFS_write (&fs, fh, buff, n) < 0)
       die ("spiffs_write");
 
-  if (SPIFFS_close (&fs, fh) < 0) 
+  if (SPIFFS_close (&fs, fh) < 0)
     die("spiffs_close");
   close (fd);
 }
@@ -199,7 +199,7 @@ void syntax (void)
   exit (1);
 }
 
-static size_t getsize(const char *s) 
+static size_t getsize(const char *s)
 {
   char *end = 0;
   size_t val = strtoul(s, &end, 0);
@@ -391,29 +391,25 @@ int main (int argc, char *argv[])
         list ();
       else if (strncmp (line, "import ", 7) == 0)
       {
-        char *src = 0, *dst = 0;
-        if (sscanf (line +7, " %ms %ms", &src, &dst) != 2)
+        char src[256], dst[256];
+        if (sscanf (line +7, " %255s %255s", &src, &dst) != 2)
         {
           fprintf (stderr, "SYNTAX ERROR: %s\n", line);
           retcode = 1;
         }
         else
           import (src, dst);
-        free (src);
-        free (dst);
       }
       else if (strncmp (line, "export ", 7) == 0)
       {
-        char *src = 0, *dst = 0;
-        if (sscanf (line + 7, " %ms %ms", &src, &dst) != 2)
+        char src[256], dst[256];
+        if (sscanf (line + 7, " %255s %255s", &src, &dst) != 2)
         {
           fprintf (stderr, "SYNTAX ERROR: %s\n", line);
           retcode = 1;
         }
         else
           export (src, dst);
-        free (src);
-        free (dst);
       }
       else if (strncmp (line, "rm ", 3) == 0)
       {
